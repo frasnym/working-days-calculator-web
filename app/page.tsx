@@ -3,12 +3,38 @@
 import { useState } from "react";
 
 export default function Home() {
-  const [dateInput, setDateInput] = useState<string>("2024-03-25");
-  const [numberInput, setNumberInput] = useState<string>("4");
+  const [inputDateStr, setInputDateStr] = useState<string>("2024-03-25");
+  const [workingDays, setWorkingDays] = useState<string>("4");
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    alert(JSON.stringify({ dateInput, numberInput }));
+    console.log({ inputDateStr, workingDays });
+
+    try {
+      const response = await fetch("http://localhost:3000/api/calculator", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ inputDateStr, workingDays }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("Response data:", data);
+      alert(JSON.stringify(data));
+      // Handle the response data as needed
+    } catch (e) {
+      if (typeof e === "string") {
+        console.error("Error calculating result date:", e.toUpperCase());
+      } else if (e instanceof Error) {
+        console.error("Error calculating result date:", e.message);
+      }
+      // Handle errors
+    }
   };
 
   return (
@@ -20,9 +46,9 @@ export default function Home() {
         <input
           type="text"
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          value={dateInput}
+          value={inputDateStr}
           placeholder="YYYY-MM-DD"
-          onChange={(e) => setDateInput(e.target.value)}
+          onChange={(e) => setInputDateStr(e.target.value)}
           required={true}
         />
       </div>
@@ -33,8 +59,8 @@ export default function Home() {
         <input
           type="number"
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          onChange={(e) => setNumberInput(e.target.value)}
-          value={numberInput}
+          onChange={(e) => setWorkingDays(e.target.value)}
+          value={workingDays}
           required
         />
       </div>
