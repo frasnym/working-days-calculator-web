@@ -13,6 +13,7 @@ interface HolidayData {
 let holidaysData: HolidayData;
 
 // Define the holidays database URL
+// TODO: Dynamic year and country
 const holidaysUrl = 'https://raw.githubusercontent.com/frasnym/holidays-scraper/main/public/id.indonesian/2024.json';
 
 // Function to fetch holidays data
@@ -42,6 +43,7 @@ async function calculateResultDate(inputDateStr: string, workingDays: number) {
     if (holidaysData === undefined) {
         await fetchHolidaysData()
     }
+    // TODO: Check data if available
 
     const inputDate = new Date(inputDateStr);
     let currentDate = new Date(inputDate);
@@ -78,6 +80,7 @@ const handler: NextApiHandler = async (req, res) => {
     if (workingDays === undefined) {
         return res.status(400).json({ error: "workingDays required" })
     }
+    // TODO: Validate input type; inputDateStr: date YYYY-MM-DD format; workingDays: number
 
     try {
         const resultDate = await calculateResultDate(inputDateStr, workingDays);
