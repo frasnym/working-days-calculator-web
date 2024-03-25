@@ -42,7 +42,7 @@ export default function Home() {
   };
 
   const loadingEl = (
-    <div className="flex items-center justify-center w-56 h-56 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+    <div className="flex items-center justify-center w-full h-full border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
       <div className="px-3 py-1 text-xs font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200">
         loading...
       </div>
@@ -57,7 +57,7 @@ export default function Home() {
         <form className="max-w-sm mx-auto" onSubmit={handleSubmit}>
           <div className="mb-5">
             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-              Date Start:
+              Date Start
             </label>
             <input
               type="text"
